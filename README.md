@@ -1,4 +1,4 @@
-# Game Engine Documentation
+# Template Game Engine Documentation
 
 This document covers the classes made for the Template Game Engine that BUas produced, this documentation is simply for me understanding it better. Therefore I write it down from what I understand in this document, down below the original `readme` file will be written down as well.
 
@@ -29,7 +29,7 @@ The `Surface` class represents a 2D pixel surface where drawing and image manipu
   - `Surface(int a_Width, int a_Height)`: Initializes an empty surface.
   - `Surface(char* a_File)`: Loads an image from the provided file.
 
-- **LoadImage(char* a_File)**: Loads an image from the specified file.
+- ***LoadImage(char* a_File)**: Loads an image from the specified file.
 
 - **Print(char* a_String, int x1, int y1, Pixel color)**: Draws a string of text onto the surface at the given position.
 
