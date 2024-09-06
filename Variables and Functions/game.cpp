@@ -18,23 +18,31 @@ namespace Tmpl8
 	{
 	}
 
-	static Sprite rotatingGun(new Surface("assets/aagun.tga"), 36);
-	static int frame = 0;
+	void Game::DrawI(int x, int y) 
+	{
+		screen->Line(100 + x, 50 + y, 200 + x, 50 + y, 0xffffff);
+		screen->Line(150 + x, 50 + y, 150 + x, 300 + y, 0xffffff);
+		screen->Line(100 + x, 300 + y, 200 + x, 300 + y, 0xffffff);
+	}
 
-	// -----------------------------------------------------------
-	// Main application tick function
-	// -----------------------------------------------------------
+	void Game::DrawFatI(int amount, int x)
+	{
+		for (int i = 0; i < amount; i++) {
+			for (int j = 0; j < amount; j++) {
+				DrawI(x + i, j);
+			}
+		}
+	}
+
+	int move = 0;
+	int dir = 1;
+
 	void Game::Tick(float deltaTime)
 	{
-		// clear the graphics window
-		screen->Clear(0);
-		// print something in the graphics window
-		screen->Print("hello world", 2, 2, 0xffffff);
-		// print something to the text window
-		printf("this goes to the console window.\n");
-		// draw a sprite
-		rotatingGun.SetFrame(frame);
-		rotatingGun.Draw(screen, 100, 100);
-		if (++frame == 36) frame = 0;
+		screen->Clear(80);
+
+		dir = move == 0 ? 1 : move == 500 ? -1 : dir;
+		DrawFatI(30, move);
+		move += dir;
 	}
 };
