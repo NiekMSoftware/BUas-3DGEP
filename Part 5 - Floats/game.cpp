@@ -24,17 +24,27 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
+	Sprite theSprite(new Surface("assets/ball.png"), 1);
+	float spriteY = 0, speed = 1;
+
+	const float downForce = 0.001f;
+	const float damping = 0.8f;
+
 	void Game::Tick(float deltaTime)
 	{
-		// clear the graphics window
+		printf("%f\n", deltaTime);
+
 		screen->Clear(0);
-		// print something in the graphics window
-		screen->Print("hello world", 2, 2, 0xffffff);
-		// print something to the text window
-		printf("this goes to the console window.\n");
-		// draw a sprite
-		rotatingGun.SetFrame(frame);
-		rotatingGun.Draw(screen, 100, 100);
-		if (++frame == 36) frame = 0;
+
+		spriteY += speed * deltaTime;
+		speed += downForce * deltaTime;
+
+		if (spriteY > (512 - 50))
+		{
+			spriteY = 512 - 50;
+			speed = -speed * damping;
+		}
+
+		theSprite.Draw(screen, 20, (int)spriteY);
 	}
 };
