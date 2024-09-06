@@ -1,116 +1,164 @@
-# Template Game Engine Documentation
+# Game Engine Template Documentation
+> Template, BUAS version https://www.buas.nl/games
+IGAD/BUAS(NHTV)/UU - Jacco Bikker - 2006-2020
 
-This document covers the classes made for the Template Game Engine that BUas produced, this documentation is simply for me understanding it better. Therefore I write it down from what I understand in this document, down below the original `readme` file will be written down as well.
+The template has been designed to make it easy to start coding C++ using games and graphics. It intends to offer the programmer a simple library with the main purpose of providing a 32-bit graphical window with a linear frame buffer. Some basic additional functionality is available, such as sprites, bitmap fonts, and vector math support.
+
+This documentation is written by me to better help understand the Template Engine. All the rights of creating this template goes to Jacco Bikker. Some elements in this document are copied over from the `_readme.txt` file inside the template.
 
 ---
 
 ## Table of Contents
 
-- [Surface Class](#surface-class)
-- [Sprite Class](#sprite-class)
-- [Original ReadMe](#read-me)
+1. [Introduction](#introduction)
+2. [How to use](#how-to-use)
+3. [Surface Class](#surface-class)
+4. [Sprite Class](#sprite-class)
+5. [Font Class](#font-class)
+6. [Vector and Matrix Classes](#vector-and-matrix-classes)
+7. [Timer Class](#timer-class)
+8. [Utility Functions](#utility-functions)
+9. [After Word](#after-word)
+
+---
+
+## Introduction
+
+This template includes key classes for:
+
+- **Surface**: Drawing pixels, lines, and loading images.
+- **Sprite**: Handling animated sprites (like characters or objects).
+- **Font**: Drawing text on a surface.
+- **Vectors and Matrices**: Performing common math operations for 2D/3D transformations.
+- **Timer**: Keeping track of time (useful for animations and frame rate control).
 
 ---
 
 ## Surface Class
 
-The `Surface` class represents a 2D pixel surface where drawing and image manipulation operations can be performed. This is also able to initialise a specified window.
+The `Surface` class is like a drawing canvas. It stores pixels and lets you draw, clear the screen, or load images.
 
-### Attributes
+### Key Properties
 
-- `Pixel* m_Buffer`: Pointer to the pixel buffer.
-- `int m_Width, m_Height`: Dimensions of the surface.
-- `int m_Pitch`: Number of pixels per row (used for memory alignment).
-- `int m_Flags`: Indicates ownership of the buffer.
+- **`m_Buffer`**: Where the pixels are stored.
+- **`m_Width, m_Height`**: Size of the surface (in pixels).
+- **`m_Pitch`**: How many pixels are in one row (helps with alignment).
 
 ### Key Methods
 
-- **Constructors**:
-  - `Surface(int a_Width, int a_Height)`: Initializes an empty surface.
-  - `Surface(char* a_File)`: Loads an image from the provided file.
-
-- ***LoadImage(char* a_File)**: Loads an image from the specified file.
-
-- **Print(char* a_String, int x1, int y1, Pixel color)**: Draws a string of text onto the surface at the given position.
-
-- **Plot(int x, int y, Pixel c)**: Draws a single pixel at the specified coordinates.
-
-- **Line(float x1, float y1, float x2, float y2, Pixel color)**: Draws a line between two points.
-
-- **Box(int x1, int y1, int x2, int y2, Pixel color)**: Draws a rectangle.
-
-- **Bar(int x1, int y1, int x2, int y2, Pixel color)**: Draws a filled rectangle.
-
-- **CopyTo(Surface* a_Dst, int a_X, int a_Y)**: Copies the surface contents to another surface.
-
-- **BlendCopyTo(Surface* a_Dst, int a_X, int a_Y)**: Copies the surface to another surface with blending.
-
-- **Resize(Surface* a_Orig)**: Resizes the surface to match the dimensions of the original.
+- **`Surface(int a_Width, int a_Height)`**: Creates a blank surface.
+- **`Surface(char* a_File)`**: Loads an image from a file.
+- **`Clear(Pixel a_Color)`**: Fills the entire surface with one color.
+- **`Plot(int x, int y, Pixel c)`**: Draws a single pixel.
+- **`Line(float x1, float y1, float x2, float y2, Pixel c)`**: Draws a line between two points.
+- **`Box(int x1, int y1, int x2, int y2, Pixel c)`**: Draws a rectangle outline.
+- **`Bar(int x1, int y1, int x2, int y2, Pixel c)`**: Draws a filled rectangle.
+- **`CopyTo(Surface* a_Dst, int a_X, int a_Y)`**: Copies the surface onto another surface.
 
 ---
 
 ## Sprite Class
 
-The `Sprite` class handles animated image sequences. It supports multiple frames and provides drawing capabilities.
+The `Sprite` class handles animations. A sprite is a series of images (or frames) that can be drawn on the screen, often used for characters or moving objects.
 
-### Attributes
+### Key Properties
 
-- `Surface* m_Surface`: The surface that contains the sprite image.
-- `int m_Width, m_Height`: Dimensions of a single frame.
-- `unsigned int m_NumFrames`: Number of frames in the sprite.
-- `unsigned int m_CurrentFrame`: Current frame for rendering.
+- **`m_Surface`**: Holds the sprite's image data.
+- **`m_NumFrames`**: How many frames (images) the sprite has.
+- **`m_CurrentFrame`**: The frame that is currently being shown.
 
 ### Key Methods
 
-- ***Sprite(Surface* a_Surface, unsigned int a_NumFrames)**: Constructor that initializes a sprite from a surface and splits it into frames.
-
-- ***Draw(Surface* a_Target, int a_X, int a_Y)**: Draws the sprite at the specified location on a surface.
-
-- ***DrawScaled(int a_X, int a_Y, int a_Width, int a_Height, Surface* a_Target)**: Draws the sprite scaled to the given dimensions.
+- **`Sprite(Surface* a_Surface, unsigned int a_NumFrames)`**: Creates a sprite from a surface and splits it into frames.
+- **`Draw(Surface* a_Target, int a_X, int a_Y)`**: Draws the current frame on the target surface at the specified location.
+- **`DrawScaled(int a_X, int a_Y, int a_Width, int a_Height, Surface* a_Target)`**: Draws the sprite, but scales it to fit the specified width and height.
 
 ---
 
-## Read Me 
-BRIEF INFO ON THE 2019-08 TEMPLATE
-Template, BUAS version https://www.buas.nl/games
-IGAD/BUAS(NHTV)/UU - Jacco Bikker - 2006-2020
+## Font Class
 
-### Purpose:
-The template has been designed to make it easy to start coding C++
-using games and graphics. It intends to offer the programmer a
-simple library with the main purpose of providing a 32-bit graphical
-window with a linear frame buffer. Some basic additional functionality
-is available, such as sprites, bitmap fonts, and vector math support.
+The `Font` class lets you print text on a surface.
 
-How to use:
-1. Copy the template folder (or extract the zip) to a fresh folder for
-   your project. 
-2. Open the .sln file with any version of Visual Studio 2019.
-3. Replace the example code in game.cpp with your own code.
-4. Copy the 64-bit dll's from dlls_x64 to the project folder if you
-   want to run a 64-bit build.
+### Key Properties
 
-You can go further by:
-- Expanding the game class in game.h;
-- Implementing some of the empty functions for mouse and keyboard
-  handling;
-- Exploring the code of the template in surface.cpp and template.cpp.
+- **`m_Surface`**: The bitmap of all characters in the font.
+- **`m_Offset, m_Width`**: Holds the position and width of each character in the font.
+
+### Key Methods
+
+- **`Font(char* a_File, char* a_Chars)`**: Loads the font from a file.
+- **`Print(Surface* a_Target, char* a_Text, int a_X, int a_Y)`**: Prints the text at the given position.
+- **`Centre(Surface* a_Target, char* a_Text, int a_Y)`**: Centers the text horizontally and prints it at the given vertical position.
 
 ---
 
-When handing in assignments based on this template, please run
-clean.bat prior to zipping the folder. This deletes any intermediate
-files created during compilation.
+## Vector and Matrix Classes
 
+These classes are used to do math for moving and rotating objects. They support 2D and 3D graphics.
+
+### vec2 (2D Vector)
+
+- **Properties**: `float x, y`
+- **Key Methods**:
+  - `length()`: Returns how long the vector is.
+  - `dot()`: Finds how much two vectors point in the same direction.
+
+### vec3 (3D Vector)
+
+- **Properties**: `float x, y, z`
+- **Key Methods**:
+  - `cross()`: Finds a vector perpendicular to two vectors.
+  - `normalized()`: Resizes the vector to have a length of 1 (unit vector).
+
+### vec4 (4D Vector)
+
+- **Properties**: `float x, y, z, w`
+- **Key Method**:
+  - `operator*(const mat4& M)`: Multiplies a 4D vector by a 4x4 matrix.
+
+### mat4 (4x4 Matrix)
+
+Used for rotations, scaling, and translations in 3D graphics.
+
+- **Key Methods**:
+  - `identity()`: Returns a matrix with no transformations.
+  - `rotate(vec3 v, float a)`: Creates a rotation matrix for rotating around vector `v` by `a` degrees.
+
+---
+
+## Timer Class
+
+The `timer` class is used to measure time, which is helpful for animations or frame timing.
+
+### Key Properties
+
+- **`start`**: Stores when the timer started.
+
+### Key Methods
+
+- **`timer()`**: Starts the timer.
+- **`elapsed()`**: Returns how much time has passed since the timer started.
+- **`reset()`**: Resets the timer back to zero.
+
+---
+
+## Utility Functions
+
+There are also some handy functions provided in the template:
+
+- **`Rand(float range)`**: Generates a random float between 0 and `range`.
+- **`IRand(int range)`**: Generates a random integer between 0 and `range`.
+
+---
+
+## After Word
 The Template is a 'quickstart' template, and not meant to be elaborate
 performant or complete. 
 At some point, and depending on your requirements, you may want to
 advance to a more full-fledged library, or you can expand the template
 with OpenGL or SDL2 code.
 
----
-
-### Credits
+## Credits
 Although the template is small and bare bones, it still uses a lot of
 code gathered over the years:
 - EasyCE's 5x5 bitmap font (primarily used for debugging);
@@ -118,6 +166,9 @@ code gathered over the years:
 - This version of the template uses SDL2 for low-level window handling,
   hopefully improving on the compatibility of earlier versions.
 
+Of course all the credits furthermore go to Jacco Bikker.
+
+## Changelog
 ### Copyright
 This code is completely free to use and distribute in any form.
 
@@ -132,7 +183,6 @@ Report problems and suggestions to Robbie Grigg if working on this
 connected to Breda University then email grigg.r@buas.nl
 otherwise bikker.j@gmail.com .
 
----
 
 ### Changelog
 
