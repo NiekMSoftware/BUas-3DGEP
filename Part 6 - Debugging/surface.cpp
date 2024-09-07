@@ -199,10 +199,19 @@ void Surface::Box( int x1, int y1, int x2, int y2, Pixel c )
 
 void Surface::Bar( int x1, int y1, int x2, int y2, Pixel c )
 {
+	// Clamp coordinates to be within the surface bounds
+	if (x1 < 0) x1 = 0;
+	if (y1 < 0) y1 = 0;
+	if (x2 >= m_Width) x2 = m_Width - 1;
+	if (y2 >= m_Height) y2 = m_Height - 1;
+
+	// Check if coordinates are still valid after clamping
+	if (x1 > x2 || y1 > y2) return;
+
 	Pixel* a = x1 + y1 * m_Pitch + m_Buffer;
-	for ( int y = y1; y <= y2; y++ )
+	for (int y = y1; y <= y2; y++)
 	{
-		for ( int x = 0; x <= (x2 - x1); x++ ) a[x] = c;
+		for (int x = 0; x <= (x2 - x1); x++) a[x] = c;
 		a += m_Pitch;
 	}
 }
