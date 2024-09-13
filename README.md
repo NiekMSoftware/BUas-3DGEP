@@ -167,7 +167,6 @@ code gathered over the years:
 
 Of course all the credits furthermore go to Jacco Bikker.
 
-## Changelog
 ### Copyright
 This code is completely free to use and distribute in any form.
 
