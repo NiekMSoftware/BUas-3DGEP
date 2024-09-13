@@ -157,7 +157,7 @@ At some point, and depending on your requirements, you may want to
 advance to a more full-fledged library, or you can expand the template
 with OpenGL or SDL2 code.
 
-## Credits
+### Credits
 Although the template is small and bare bones, it still uses a lot of
 code gathered over the years:
 - EasyCE's 5x5 bitmap font (primarily used for debugging);
