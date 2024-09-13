@@ -11,14 +11,13 @@ This documentation is written by me to better help understand the Template Engin
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [How to use](#how-to-use)
-3. [Surface Class](#surface-class)
-4. [Sprite Class](#sprite-class)
-5. [Font Class](#font-class)
-6. [Vector and Matrix Classes](#vector-and-matrix-classes)
-7. [Timer Class](#timer-class)
-8. [Utility Functions](#utility-functions)
-9. [After Word](#after-word)
+2. [Surface Class](#surface-class)
+3. [Sprite Class](#sprite-class)
+4. [Font Class](#font-class)
+5. [Vector and Matrix Classes](#vector-and-matrix-classes)
+6. [Timer Class](#timer-class)
+7. [Utility Functions](#utility-functions)
+8. [After Word](#after-word)
 
 ---
 
