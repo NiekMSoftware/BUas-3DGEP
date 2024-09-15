@@ -1,7 +1,6 @@
 #include "game.h"
 #include "surface.h"
 #include <cstdio> //printf
-#include <iostream>
 
 namespace Tmpl8
 {
@@ -19,51 +18,40 @@ namespace Tmpl8
 	{
 	}
 
-	static Sprite image(new Surface("assets/space.jpg"), 1);
+	int white= (255 << 16) + (255 << 8) + 255;
+	int black = 0;
 
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
 	void Game::Tick(float deltaTime)
 	{
-		// Clear window
-		screen->Clear(0);
+		screen->Clear((144 << 8) + (233 << 16));
 
-		Pixel* pixels = image.GetSurface()->GetBuffer();
-		int imgWidth = image.GetWidth();
-		int imgHeight = image.GetHeight();
+		int squareSize = 20;
+		int checkerboardSize = 200;
 
-		// Loop through each pixel in the sprite
-		for (int y = 0; y < imgHeight; ++y)
+		// draw checkerboard
+		for (int row = 0; row < checkerboardSize / squareSize; ++row)
 		{
-			for (int x = 0; x < imgWidth; ++x)
+			for (int col = 0; col < checkerboardSize / squareSize; ++col)
 			{
-				// Access the pixel
-				Pixel& pixel = pixels[x + y * imgWidth];
+				Pixel color = ((row + col) % 2 == 0) ? white : black;
 
-				// Separate the color channels
-				int red = (pixel & 0xff0000) >> 16;
-				int green = (pixel & 0x00ff00) >> 8;
-				int blue = (pixel & 0x0000ff);
+				// Calc pos
+				int x1 = col * squareSize;
+				int y1 = row * squareSize;
+				int x2 = x1 + squareSize - 1;
+				int y2 = y1 + squareSize - 1;
 
-				// Fade to black using floating point
-				float fadeFactor = 0.9f; // Adjust this factor over time
-				red = static_cast<int>(red * fadeFactor);
-				green = static_cast<int>(green * fadeFactor);
-				blue = static_cast<int>(blue * fadeFactor);
-
-				// Alternatively, fade to black using integer
-				/*int fadeStep = 5;
-				red = std::max(0, red - fadeStep);
-				green = std::max(0, green - fadeStep);
-				blue = std::max(0, blue - fadeStep);*/
-
-				// Recombine the color channels
-				pixel = (red << 16) | (green << 8) | blue;
+				// Draw square
+				screen->Bar(x1, y1, x2, y2, color);
 			}
 		}
-		// using integers is a bit slower.
 
-		image.Draw(screen, 1, 1);
+		// draw the solid grey bar next to the checkerboard
+		int greybarX = checkerboardSize + 10;
+		Pixel greyColor = (128 << 16) + (128 << 8) + 128;
+		screen->Bar(greybarX, 0, greybarX + 200 - 1, 200 - 1, greyColor);
 	}
 };
