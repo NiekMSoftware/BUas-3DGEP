@@ -189,6 +189,35 @@ void Surface::Plot( int x, int y, Pixel c )
 	if ((x >= 0) && (y >= 0) && (x < m_Width) && (y < m_Height)) m_Buffer[x + y * m_Pitch] = c;
 }
 
+void Surface::Plot(float x, float y, Pixel color) {
+	// Integer part of the coordinates
+	int xi = static_cast<int>(floor(x));
+	int yi = static_cast<int>(floor(y));
+
+	// Ensure the coordinates are within bounds
+	if (xi < 0 || xi >= m_Width - 1 || yi < 0 || yi >= m_Height - 1) return;
+
+	// Fractional part of the coordinates using fmodf
+	float fx = fmodf(x, 1.0f);
+	float fy = fmodf(y, 1.0f);
+
+	// Calculate the brightness for each of the four pixels
+	float brightnessTopLeft = (1 - fx) * (1 - fy);
+	float brightnessTopRight = fx * (1 - fy);
+	float brightnessBottomLeft = (1 - fx) * fy;
+	float brightnessBottomRight = fx * fy;
+
+	// Access and blend the new color into the four surrounding pixels
+	auto getPixel = [&](int x, int y) -> Pixel& {
+		return m_Buffer[x + y * m_Pitch];
+		};
+
+	getPixel(xi, yi) = AddBlend(getPixel(xi, yi), color * brightnessTopLeft);
+	getPixel(xi + 1, yi) = AddBlend(getPixel(xi + 1, yi), color * brightnessTopRight);
+	getPixel(xi, yi + 1) = AddBlend(getPixel(xi, yi + 1), color * brightnessBottomLeft);
+	getPixel(xi + 1, yi + 1) = AddBlend(getPixel(xi + 1, yi + 1), color * brightnessBottomRight);
+}
+
 void Surface::Box( int x1, int y1, int x2, int y2, Pixel c )
 {
 	Line( (float)x1, (float)y1, (float)x2, (float)y1, c );

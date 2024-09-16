@@ -5,7 +5,7 @@
 
 namespace Tmpl8
 {
-	constexpr int PIXELS = 65536;
+	constexpr int PIXELS = 8192;
 	float pixelX[PIXELS], pixelY[PIXELS];
 	float origX[PIXELS], origY[PIXELS];
 
@@ -49,12 +49,12 @@ namespace Tmpl8
 				float returnDy = origY[i] - pixelY[i];
 				float returnDist = sqrtf(returnDx * returnDx + returnDy * returnDy);
 
-				if (returnDist > 1)
+				if (returnDist > .5f)
 					pixelX[i] += returnDx / returnDist, pixelY[i] += returnDy / returnDist;
 			}
 
 			// draw the pixels
-			screen->Plot((int)pixelX[i], (int)pixelY[i], 0xffffff);
+			screen->Plot(pixelX[i], pixelY[i], 0xffffff);
 		}
 	}
 };
